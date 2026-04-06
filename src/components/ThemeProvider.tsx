@@ -22,21 +22,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     // Check for saved theme preference or system preference
     const savedTheme = localStorage.getItem("theme") as Theme | null;
+    let initialTheme: Theme = "dark";
+
     if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(savedTheme);
+      initialTheme = savedTheme;
     } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add("light");
-    } else {
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add("dark");
+      initialTheme = "light";
     }
+
+    requestAnimationFrame(() => {
+      setTheme(initialTheme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(initialTheme);
+      setMounted(true);
+    });
   }, []);
 
   const toggleTheme = useCallback(() => {
