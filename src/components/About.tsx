@@ -1,240 +1,160 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 import { personalInfo, skills, languages } from "@/constants";
 import {
-  Code2,
-  Database,
+  MapPin,
   Globe,
-  Users,
-  Sparkles,
+  Code2,
+  Server,
+  Wrench,
   FileDown,
 } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
-interface Language {
-  name: string;
-  level: string;
-}
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
+};
 
-const skillCategories = [
-  {
-    title: "Core",
-    icon: Code2,
-    items: skills.core,
-    color: "from-cyan-400 to-blue-500",
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
   },
-  {
-    title: "Styling & UI",
-    icon: Sparkles,
-    items: skills.styling,
-    color: "from-purple-400 to-pink-500",
-  },
-  {
-    title: "GIS & Mapping",
-    icon: Globe,
-    items: skills.gis,
-    color: "from-emerald-400 to-cyan-500",
-  },
-  {
-    title: "Backend & Integration",
-    icon: Database,
-    items: skills.backend,
-    color: "from-orange-400 to-red-500",
-  },
-  {
-    title: "Tools & Libraries",
-    icon: Code2,
-    items: skills.tools,
-    color: "from-blue-400 to-indigo-500",
-  },
+};
+
+const techGroups = [
+  { icon: Code2, label: "Core", items: skills.core },
+  { icon: Globe, label: "GIS", items: skills.gis },
+  { icon: Server, label: "Backend", items: skills.backend },
+  { icon: Wrench, label: "Tools", items: skills.tools },
 ];
 
 export default function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section
       id="about"
-      className="relative py-24 md:py-32 bg-white dark:bg-slate-900 overflow-hidden transition-colors duration-300"
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/5"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        {/* Section Header */}
+      <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            About{" "}
-            <span className="bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
-              Me
-            </span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full" />
-        </motion.div>
+          <motion.div variants={item}>
+            <SectionLabel>02 / About</SectionLabel>
+          </motion.div>
 
-        {/* Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left: About Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="relative">
-              {/* Decorative Element */}
-              <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-cyan-400 to-purple-500 rounded-full" />
+          <div className="grid lg:grid-cols-[1.5fr_1fr] gap-16 lg:gap-24 items-start">
+            {/* Left — Text */}
+            <div>
+              <motion.h2
+                variants={item}
+                className="text-4xl md:text-5xl font-medium mb-8 font-display text-text-primary leading-tight"
+              >
+                Crafting high-performance interfaces for complex geospatial
+                problems.
+              </motion.h2>
 
-              <div className="pl-6">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-                  Crafting Digital Experiences with{" "}
-                  <span className="text-cyan-600 dark:text-cyan-400">
-                    Geospatial Precision
-                  </span>
-                </h3>
+              <motion.p
+                variants={item}
+                className="text-lg leading-relaxed mb-6 text-text-muted font-sans"
+              >
+                {personalInfo.summary}
+              </motion.p>
 
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                  {personalInfo.summary}
-                </p>
+              <motion.p
+                variants={item}
+                className="text-base leading-relaxed mb-10 text-text-faint font-sans"
+              >
+                Based in{" "}
+                <span className="text-text-primary">
+                  {personalInfo.location}
+                </span>
+                , I work with GIS specialists and cross-functional teams to deliver robust technical solutions for Aid Management and Disaster Risk platforms.
+              </motion.p>
 
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                  Experienced in collaborating with cross-functional teams, GIS
-                  specialists, and government partners to deliver resilient
-                  technical solutions for Aid Management, Infrastructure
-                  Planning, and Disaster Risk Management platforms.
-                </p>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-8">
-                  <motion.div
-                    className="text-center p-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10"
-                    whileHover={{
-                      scale: 1.05,
-                      backgroundColor: "rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                      3+
+              {/* Tech stack group items */}
+              <motion.div variants={item} className="space-y-6 mb-12">
+                {techGroups.map((group) => (
+                  <div key={group.label} className="flex items-start gap-4">
+                    <div className="flex items-center gap-2 pt-1 min-w-[100px] font-mono text-[10px] uppercase tracking-widest text-text-faint">
+                      <group.icon size={12} className="text-accent" />
+                      {group.label}
                     </div>
-                    <div className="text-gray-500 dark:text-gray-400 text-sm">
-                      Years Exp.
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    className="text-center p-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10"
-                    whileHover={{
-                      scale: 1.05,
-                      backgroundColor: "rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                      10+
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-400 text-sm">
-                      Projects
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    className="text-center p-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10"
-                    whileHover={{
-                      scale: 1.05,
-                      backgroundColor: "rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    <div className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
-                      4+
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-400 text-sm">
-                      GIS Libraries
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Languages */}
-                <div className="p-6 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
-                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-cyan-500" />
-                    Languages Known
-                  </h4>
-                  <div className="flex flex-wrap gap-4">
-                    {languages.map((lang: Language) => (
-                      <div key={lang.name} className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-900 dark:text-white">
-                          {lang.name}
+                    <div className="flex flex-wrap gap-2">
+                      {group.items.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[10px] font-mono px-2 py-1 rounded border border-white/5 bg-white/[0.02] text-text-muted"
+                        >
+                          {t}
                         </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {lang.level}
-                        </span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
+              </motion.div>
 
-                {/* CV Button */}
-                <motion.div className="mt-10" whileHover={{ x: 10 }}>
+              <motion.div variants={item}>
+                <Button variant="primary" asChild>
                   <a
                     href={personalInfo.cvUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-medium shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+                    className="flex items-center gap-2"
                   >
-                    <FileDown className="w-5 h-5" />
-                    Download Full Resume
+                    <FileDown size={16} />
+                    Download Resume
                   </a>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Skills */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid sm:grid-cols-2 gap-4"
-          >
-            {skillCategories.map((category, index) => (
-              <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                className="group p-5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className={`p-2 rounded-lg bg-gradient-to-r ${category.color}`}
-                  >
-                    <category.icon className="w-4 h-4 text-white" />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
-                    {category.title}
-                  </h4>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 text-xs rounded-full bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-white/5"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                </Button>
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
+            </div>
+
+            {/* Right — Visual card */}
+            <motion.div variants={item} className="sticky top-32">
+              <div className="rounded-2xl p-8 bg-bg-surface border border-white/5 relative overflow-hidden">
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/5 rounded-full blur-[80px]" />
+                
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-2xl bg-bg-elevated border border-white/10 flex items-center justify-center text-2xl font-medium text-accent font-mono mb-8">
+                    SD
+                  </div>
+                  <h3 className="text-xl font-medium text-text-primary font-sans mb-1">
+                    {personalInfo.name}
+                  </h3>
+                  <p className="text-sm text-text-muted font-sans mb-6">
+                    {personalInfo.title}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/5">
+                    {[
+                      { n: "3+", l: "Yrs Exp" },
+                      { n: "5+", l: "GIS Apps" },
+                      { n: "4", l: "Map Libs" },
+                      { n: "2", l: "Companies" },
+                    ].map((s) => (
+                      <div key={s.l}>
+                        <p className="text-2xl font-mono font-medium text-accent mb-1">
+                          {s.n}
+                        </p>
+                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-faint">
+                          {s.l}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

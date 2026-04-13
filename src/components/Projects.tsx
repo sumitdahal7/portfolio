@@ -1,167 +1,182 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Tag } from "@/components/ui/Tag";
 import { projects, personalInfo } from "@/constants";
-import { ExternalLink, Layers, MapPin } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const accentColors: Record<string, string> = {
+  "#10B981": "#10B981",
+  "#3B82F6": "#3B82F6",
+  "#8B5CF6": "#8B5CF6",
+  "#EC4899": "#EC4899",
+  "#F59E0B": "#F59E0B",
+};
 
 export default function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section
       id="projects"
-      className="relative py-24 md:py-32 bg-gray-50 dark:bg-slate-950 overflow-hidden transition-colors duration-300"
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/5"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-20 dark:opacity-10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(100,100,100,0.15) 1px, transparent 0)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-      </div>
-
-      {/* Gradient Accent */}
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-purple-500/5 dark:from-purple-500/10 to-transparent blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-cyan-500/5 dark:from-cyan-500/10 to-transparent blur-3xl" />
-
-      <div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
-        ref={ref}
-      >
-        {/* Section Header */}
+      <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 mb-6 shadow-sm">
-            <Layers className="w-4 h-4 text-cyan-500 dark:text-cyan-400" />
-            <span className="text-gray-600 dark:text-gray-300 text-sm">
-              Featured Work
-            </span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            My{" "}
-            <span className="bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
-              Projects
-            </span>
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            A showcase of geospatial web applications and data visualization
-            platforms I&apos;ve built for government and international
-            organizations.
-          </p>
-        </motion.div>
+          <motion.div variants={item}>
+            <SectionLabel>03 / Projects</SectionLabel>
+          </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {projects.map((project, index) => (
+          <div className="flex items-end justify-between mb-16">
+            <motion.h2
+              variants={item}
+              className="text-4xl md:text-5xl font-medium font-display text-text-primary"
+            >
+              Selected work.
+            </motion.h2>
+            <motion.a
+              variants={item}
+              href={personalInfo.socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-faint hover:text-text-primary transition-colors duration-300"
+            >
+              <Github size={14} />
+              All Projects
+            </motion.a>
+          </div>
+
+          {/* Featured project */}
+          {projects[0] && (
             <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group relative"
+              variants={item}
+              className="mb-8"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <div
-                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                style={{ backgroundColor: project.color + "30" }}
-              />
-              <div className="relative h-full p-6 md:p-8 rounded-3xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-300 backdrop-blur-sm shadow-sm hover:shadow-md">
-                {/* Project Header */}
-                <div className="flex items-start justify-between mb-4">
+                className="group rounded-3xl p-8 relative overflow-hidden bg-bg-surface border border-white/5 transition-colors duration-300 hover:border-white/10"
+              >
+                <div
+                  className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none opacity-10 blur-[80px]"
+                  style={{ background: projects[0].color || "var(--color-accent)" }}
+                  aria-hidden
+                />
+                
+                <div className="relative grid lg:grid-cols-2 gap-12">
                   <div>
                     <div
-                      className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-3"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-xl font-bold font-mono"
                       style={{
-                        backgroundColor: project.color + "20",
-                        color: project.color,
+                        background: (projects[0].color || "#e8ff47") + "15",
+                        border: `1px solid ${projects[0].color || "#e8ff47"}30`,
+                        color: projects[0].color || "#e8ff47",
                       }}
                     >
-                      <MapPin className="w-3 h-3" />
-                      {project.technologies.includes("GIS") || project.technologies.some(t => ["MapLibre GL", "Mapbox GL JS", "OpenLayers", "Leaflet", "MapLibre"].includes(t)) ? "GIS Project" : "Marketplace Project"}
+                      {projects[0].title.charAt(0)}
                     </div>
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">
-                      {project.subtitle}
-                    </p>
-                  </div>
-                  <motion.div
-                    className="p-2 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <ExternalLink className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                  </motion.div>
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
-                  {project.description}
-                </p>
-
-                {/* Highlights */}
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-2">
-                    {project.highlights.map((highlight) => (
-                      <span
-                        key={highlight}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/5"
-                      >
-                        <span
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: project.color }}
-                        />
-                        {highlight}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200 dark:border-white/10">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs rounded-lg bg-gradient-to-r from-cyan-500/10 to-purple-500/10 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/5"
-                    >
-                      {tech}
+                    
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-faint mb-2 block">
+                      Featured Project
                     </span>
-                  ))}
+                    
+                    <h3 className="text-2xl font-medium text-text-primary font-sans mb-3">
+                      {projects[0].title}
+                    </h3>
+                    
+                    <p className="text-base text-text-muted font-sans mb-8 leading-relaxed">
+                      {projects[0].description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {projects[0].technologies.map((t) => (
+                        <Tag key={t}>{t}</Tag>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col justify-between">
+                    <ul className="space-y-4 mb-8">
+                      {projects[0].highlights.map((h) => (
+                        <li key={h} className="text-sm text-text-faint flex items-start gap-3 font-sans">
+                          <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-accent/40" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <div className="flex items-center gap-6">
+                      <a href="#" className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-primary hover:text-accent transition-colors">
+                        Case Study <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
-          ))}
-        </div>
+          )}
 
-        {/* View More */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-12"
-        >
-          <p className="text-gray-500 dark:text-gray-400 mb-4">
-            Interested in seeing more of my work?
-          </p>
-          <motion.a
-            href={personalInfo.socialLinks.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            View GitHub
-            <ExternalLink className="w-4 h-4" />
-          </motion.a>
+          {/* Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {projects.slice(1).map((proj) => (
+              <motion.div
+                key={proj.id}
+                variants={item}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="group rounded-2xl p-6 h-full bg-bg-surface border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col"
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold font-mono mb-6"
+                  style={{
+                    background: (proj.color || "#888") + "10",
+                    border: `1px solid ${proj.color || "#888"}20`,
+                    color: proj.color || "#888",
+                  }}
+                >
+                  {proj.title.charAt(0)}
+                </div>
+
+                <h3 className="text-lg font-medium text-text-primary font-sans mb-2">
+                  {proj.title}
+                </h3>
+                
+                <p className="text-xs text-text-muted font-sans line-clamp-3 mb-6 leading-relaxed">
+                  {proj.description}
+                </p>
+                
+                <div className="mt-auto pt-6 border-t border-white/5 flex flex-wrap gap-1.5">
+                  {proj.technologies.slice(0, 3).map((t) => (
+                    <Tag key={t}>{t}</Tag>
+                  ))}
+                  {proj.technologies.length > 3 && (
+                    <span className="text-[9px] font-mono px-2 py-1 rounded bg-bg-elevated text-text-faint border border-white/5">
+                      +{proj.technologies.length - 3}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

@@ -2,28 +2,48 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { personalInfo, navItems } from "@/constants";
 import { Menu, X } from "lucide-react";
-import { navItems, personalInfo } from "@/constants";
-import ThemeToggle from "./ThemeToggle";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
+
+      const sections = ["about", "projects", "skills", "experience", "contact"];
+      const current = sections.find((s) => {
+        const el = document.getElementById(s);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= 120 && rect.bottom >= 120;
+      });
+      setActive(current || "");
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (link: string) => {
-    const element = document.querySelector(link);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id.replace("#", ""));
+    if (el) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
-    setIsMobileMenuOpen(false);
+    setMobileOpen(false);
   };
 
   return (
@@ -31,110 +51,104 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-lg border-b border-gray-200 dark:border-white/10"
-            : "bg-transparent"
-        }`}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-12",
+          scrolled 
+            ? "py-3 bg-bg-base/80 backdrop-blur-md border-b border-white/5" 
+            : "py-6 bg-transparent"
+        )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
-            <motion.a
-              href="#"
-              className="text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              SD
-            </motion.a>
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <a
+            href="#"
+            className="font-mono text-sm tracking-[0.2em] uppercase text-accent font-medium"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            {personalInfo.name}
+          </a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
-              {navItems.map((item, index) => (
-                <motion.button
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => {
+              const id = item.link.replace("#", "");
+              const isActive = active === id;
+              return (
+                <button
                   key={item.name}
-                  onClick={() => scrollToSection(item.link)}
-                  className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors relative group"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  onClick={() => scrollTo(item.link)}
+                  className={cn(
+                    "relative text-xs font-mono uppercase tracking-widest transition-colors duration-300",
+                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary"
+                  )}
                 >
                   {item.name}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 transition-all duration-300 group-hover:w-full" />
-                </motion.button>
-              ))}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-accent"
+                    />
+                  )}
+                </button>
+              );
+            })}
 
-              {/* Theme Toggle */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="ml-2"
-              >
-                <ThemeToggle />
-              </motion.div>
-
-              <motion.a
-                href={personalInfo.cvUrl}
-                target="_blank"
-                className="ml-2 px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                Resume
-              </motion.a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="flex items-center gap-2 md:hidden">
-              <ThemeToggle />
-              <button
-                className="text-gray-700 dark:text-white p-2"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            <a
+              href={personalInfo.cvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-4 text-[10px] font-mono uppercase tracking-[0.2em] px-5 py-2 rounded-full border border-white/10 text-text-primary hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+            >
+              Resume
+            </a>
           </div>
+
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden text-text-muted hover:text-text-primary transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </motion.nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg md:hidden pt-20"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-bg-base pt-24 px-6 md:px-12"
           >
-            <div className="flex flex-col items-center justify-center h-full space-y-8">
-              {navItems.map((item, index) => (
+            <div className="flex flex-col gap-8">
+              {navItems.map((item, i) => (
                 <motion.button
                   key={item.name}
-                  onClick={() => scrollToSection(item.link)}
-                  className="text-2xl text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  initial={{ opacity: 0, x: -50 }}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => scrollTo(item.link)}
+                  className="text-3xl font-display text-text-primary text-left"
                 >
                   {item.name}
                 </motion.button>
               ))}
               <motion.a
-                href={personalInfo.cvUrl}
-                target="_blank"
-                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-medium text-lg"
-                initial={{ opacity: 0, x: -50 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.3 }}
+                href={personalInfo.cvUrl}
+                className="mt-4 text-accent font-mono text-sm tracking-widest uppercase"
+                onClick={() => setMobileOpen(false)}
               >
-                Resume
+                Download Resume →
               </motion.a>
             </div>
           </motion.div>

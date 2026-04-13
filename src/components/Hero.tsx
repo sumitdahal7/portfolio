@@ -1,245 +1,156 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  MapPin,
-  Mail,
-  ChevronDown,
-  Github,
-  Linkedin,
-  FileDown,
-} from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown, FileDown } from "lucide-react";
 import { personalInfo } from "@/constants";
+import { Button } from "@/components/ui/Button";
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export default function Hero() {
   const scrollToAbout = () => {
-    const element = document.querySelector("#about");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-30 dark:opacity-20"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(6, 182, 212, 0.15) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        />
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden px-6 md:px-12 pt-24 pb-12">
+      {/* Glow blob */}
+      <div
+        className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{
+          background: "var(--color-accent)",
+          opacity: 0.04,
+          filter: "blur(120px)",
+        }}
+        aria-hidden="true"
+      />
 
-        {/* Gradient Orbs */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 dark:bg-cyan-500/30 rounded-full blur-3xl"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 dark:bg-purple-500/30 rounded-full blur-3xl"
-          animate={{
-            x: [0, -50, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
+      <div className="max-w-5xl mx-auto w-full">
+        <motion.div variants={container} initial="hidden" animate="show">
+          {/* Status badge */}
+          <motion.div variants={item} className="mb-10">
+            <span
+              className="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase px-4 py-2 rounded-full border border-accent/20 font-mono text-accent bg-accent/5"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+              </span>
+              Available for work
+            </span>
+          </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-sm mb-8 shadow-sm"
-        >
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-gray-600 dark:text-gray-300 text-sm">
-            Available for opportunities
-          </span>
-        </motion.div>
-
-        {/* Name */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4"
-        >
-          Hi, I&apos;m{" "}
-          <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-            {personalInfo.name}
-          </span>
-        </motion.h1>
-
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6"
-        >
-          <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 dark:text-gray-300 font-medium">
-            {personalInfo.title}
-          </h2>
-          <p className="text-lg sm:text-xl text-cyan-600 dark:text-cyan-400 mt-2">
-            {personalInfo.subtitle}
-          </p>
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-gray-600 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed"
-        >
-          {personalInfo.tagline}
-        </motion.p>
-
-        {/* Location & Email */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-10"
-        >
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <MapPin size={18} className="text-cyan-500 dark:text-cyan-400" />
-            <span>{personalInfo.location}</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <Mail size={18} className="text-purple-500 dark:text-purple-400" />
-            <span>{personalInfo.email}</span>
-          </div>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-4"
-        >
-          <motion.a
-            href="#projects"
-            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              document
-                .querySelector("#projects")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
+          {/* Name */}
+          <motion.h1
+            variants={item}
+            className="mb-6 text-text-primary leading-[1.1] font-medium font-display text-[clamp(3.5rem,10vw,6rem)]"
           >
-            View My Work
-          </motion.a>
-          <motion.a
-            href={personalInfo.cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white rounded-full font-medium hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FileDown size={18} />
-            Download CV
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="px-8 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white rounded-full font-medium hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={(e) => {
-              e.preventDefault();
-              document
-                .querySelector("#contact")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Get In Touch
-          </motion.a>
-        </motion.div>
+            Sumit <span className="text-accent">Dahal</span>
+            <span className="text-text-faint">.</span>
+          </motion.h1>
 
-        {/* Social Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="flex items-center justify-center gap-4 mt-10"
-        >
-          <motion.a
-            href={personalInfo.socialLinks.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
-            whileHover={{ scale: 1.1, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+          {/* Role */}
+          <motion.p
+            variants={item}
+            className="text-xl md:text-2xl mb-4 text-text-muted font-sans"
           >
-            <Github size={20} />
-          </motion.a>
-          <motion.a
-            href={personalInfo.socialLinks.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
-            whileHover={{ scale: 1.1, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            Frontend Engineer &mdash;{" "}
+            <span className="text-text-faint">
+              Geospatial &amp; Data-Driven Applications
+            </span>
+          </motion.p>
+
+          {/* Tagline */}
+          <motion.p
+            variants={item}
+            className="text-base leading-relaxed max-w-xl mb-10 text-text-muted font-sans"
           >
-            <Linkedin size={20} />
-          </motion.a>
-          <motion.a
-            href={personalInfo.socialLinks.email}
-            className="p-3 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
-            whileHover={{ scale: 1.1, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            {personalInfo.tagline}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            variants={item}
+            className="flex flex-wrap items-center gap-4 mb-16"
           >
-            <Mail size={20} />
-          </motion.a>
+            <Button variant="primary" asChild>
+              <a
+                href={personalInfo.cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileDown size={16} />
+                Download CV
+              </a>
+            </Button>
+
+            <Button variant="ghost" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>
+              View Work
+            </Button>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-2 ml-4">
+              <a href={personalInfo.socialLinks.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white/20 transition-all duration-200">
+                <Github size={18} />
+              </a>
+              <a href={personalInfo.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white/20 transition-all duration-200">
+                <Linkedin size={18} />
+              </a>
+              <a href={personalInfo.socialLinks.email} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-text-primary hover:border-white/20 transition-all duration-200">
+                <Mail size={18} />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            variants={item}
+            className="flex flex-wrap gap-12 pt-10 border-t border-white/5"
+          >
+            {[
+              { value: "3+", label: "Years Experience" },
+              { value: "5+", label: "GIS Projects" },
+              { value: "4", label: "Mapping Libraries" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="text-3xl font-medium mb-1 text-accent font-mono">
+                  {stat.value}
+                </p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-text-faint font-mono">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.button
+      {/* Scroll hint */}
+      <button
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-text-faint hover:text-text-muted transition-colors duration-200 group"
+        aria-label="Scroll down"
       >
-        <ChevronDown size={32} />
-      </motion.button>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowDown size={20} className="group-hover:text-accent transition-colors" />
+        </motion.div>
+        <div className="w-px h-12 bg-gradient-to-b from-text-faint/50 to-transparent" />
+      </button>
     </section>
   );
 }
