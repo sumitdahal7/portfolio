@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { projects } from "@/constants";
+import { projects, personalInfo } from "@/constants";
 import { ExternalLink, Layers, MapPin } from "lucide-react";
 
 export default function Projects() {
@@ -152,7 +152,7 @@ export default function Projects() {
             Interested in seeing more of my work?
           </p>
           <motion.a
-            href="https://github.com/sumitdahal"
+            href={personalInfo.socialLinks.github}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-300 shadow-sm"

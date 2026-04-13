@@ -16,8 +16,8 @@ export const personalInfo = {
     "Specializing in building scalable geospatial systems and data-driven applications with a focus on high-performance UIs.",
   summary: `I am a detail-oriented Frontend Engineer specializing in building scalable geospatial systems and data-driven applications. My core expertise lies in React, TypeScript, and Tailwind CSS, with a proven track record of delivering high-performance UIs for complex platforms. I am highly motivated by fast-paced environments and have a strong drive to excel in backend development to become a more versatile engineer.`,
   socialLinks: {
-    github: "https://github.com/sumitdahal",
-    linkedin: "https://linkedin.com/in/sumitdahal",
+    github: "https://github.com/sumitdahal7",
+    linkedin: "https://www.linkedin.com/in/sumit-dahal-037458168/",
     email: "mailto:sumitdahal123@gmail.com",
   },
   cvUrl: "/resume.pdf", // Path to your CV file in the public folder or an external link

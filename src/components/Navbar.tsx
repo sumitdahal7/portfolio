@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { navItems } from "@/constants";
+import { navItems, personalInfo } from "@/constants";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
@@ -77,7 +77,7 @@ export default function Navbar() {
               </motion.div>
 
               <motion.a
-                href="/resume.pdf"
+                href={personalInfo.cvUrl}
                 target="_blank"
                 className="ml-2 px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
@@ -127,7 +127,7 @@ export default function Navbar() {
                 </motion.button>
               ))}
               <motion.a
-                href="/resume.pdf"
+                href={personalInfo.cvUrl}
                 target="_blank"
                 className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-full font-medium text-lg"
                 initial={{ opacity: 0, x: -50 }}
