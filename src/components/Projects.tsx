@@ -85,7 +85,7 @@ export default function Projects() {
                       }}
                     >
                       <MapPin className="w-3 h-3" />
-                      GIS Project
+                      {project.technologies.includes("GIS") || project.technologies.some(t => ["MapLibre GL", "Mapbox GL JS", "OpenLayers", "Leaflet", "MapLibre"].includes(t)) ? "GIS Project" : "Marketplace Project"}
                     </div>
                     <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                       {project.title}

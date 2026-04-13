@@ -3,20 +3,32 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { personalInfo, skills } from "@/constants";
-import { Code2, Database, Globe, Users, Sparkles } from "lucide-react";
+import { personalInfo, skills, languages } from "@/constants";
+import {
+  Code2,
+  Database,
+  Globe,
+  Users,
+  Sparkles,
+  FileDown,
+} from "lucide-react";
+
+interface Language {
+  name: string;
+  level: string;
+}
 
 const skillCategories = [
   {
-    title: "Languages",
+    title: "Core",
     icon: Code2,
-    items: skills.languages,
+    items: skills.core,
     color: "from-cyan-400 to-blue-500",
   },
   {
-    title: "Frameworks",
+    title: "Styling & UI",
     icon: Sparkles,
-    items: skills.frameworks,
+    items: skills.styling,
     color: "from-purple-400 to-pink-500",
   },
   {
@@ -26,9 +38,9 @@ const skillCategories = [
     color: "from-emerald-400 to-cyan-500",
   },
   {
-    title: "Databases",
+    title: "Backend & Integration",
     icon: Database,
-    items: skills.databases,
+    items: skills.backend,
     color: "from-orange-400 to-red-500",
   },
   {
@@ -36,12 +48,6 @@ const skillCategories = [
     icon: Code2,
     items: skills.tools,
     color: "from-blue-400 to-indigo-500",
-  },
-  {
-    title: "Soft Skills",
-    icon: Users,
-    items: skills.softSkills,
-    color: "from-pink-400 to-purple-500",
   },
 ];
 
@@ -109,7 +115,7 @@ export default function About() {
                 </p>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 mb-8">
                   <motion.div
                     className="text-center p-4 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10"
                     whileHover={{
@@ -153,6 +159,39 @@ export default function About() {
                     </div>
                   </motion.div>
                 </div>
+
+                {/* Languages */}
+                <div className="p-6 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-cyan-500" />
+                    Languages Known
+                  </h4>
+                  <div className="flex flex-wrap gap-4">
+                    {languages.map((lang: Language) => (
+                      <div key={lang.name} className="flex flex-col">
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          {lang.name}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {lang.level}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CV Button */}
+                <motion.div className="mt-10" whileHover={{ x: 10 }}>
+                  <a
+                    href={personalInfo.cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-medium shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
+                  >
+                    <FileDown className="w-5 h-5" />
+                    Download Full Resume
+                  </a>
+                </motion.div>
               </div>
             </div>
           </motion.div>

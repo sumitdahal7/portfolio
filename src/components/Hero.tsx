@@ -1,7 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, ChevronDown, Github, Linkedin } from "lucide-react";
+import {
+  MapPin,
+  Mail,
+  ChevronDown,
+  Github,
+  Linkedin,
+  FileDown,
+} from "lucide-react";
 import { personalInfo } from "@/constants";
 
 export default function Hero() {
@@ -158,6 +165,17 @@ export default function Hero() {
             }}
           >
             View My Work
+          </motion.a>
+          <motion.a
+            href={personalInfo.cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white rounded-full font-medium hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FileDown size={18} />
+            Download CV
           </motion.a>
           <motion.a
             href="#contact"

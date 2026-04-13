@@ -7,33 +7,28 @@ export const navItems = [
 
 export const personalInfo = {
   name: "Sumit Dahal",
-  title: "Frontend Developer",
-  subtitle: "Geospatial & GIS Specialist",
+  title: "Frontend Engineer",
+  subtitle: "Geospatial & Data-Driven Application Specialist",
   email: "sumitdahal123@gmail.com",
   phone: "+977-9860108455",
-  location: "Kathmandu, Nepal",
+  location: "Panauti-10, Kavrepalanchowk",
   tagline:
-    "Building scalable, user-friendly web and mobile applications with a passion for geospatial systems and data-driven UI development.",
-  summary: `Motivated and detail-oriented Frontend Developer with over 3 years of experience specializing in building scalable, user-friendly web and mobile applications. Proven ability to deliver high-performance geospatial systems across Aid Management, Infrastructure Planning, and Disaster Risk Management platforms. Skilled in modern JavaScript frameworks (React, React Native), mapping libraries and data-driven UI development.`,
+    "Specializing in building scalable geospatial systems and data-driven applications with a focus on high-performance UIs.",
+  summary: `I am a detail-oriented Frontend Engineer specializing in building scalable geospatial systems and data-driven applications. My core expertise lies in React, TypeScript, and Tailwind CSS, with a proven track record of delivering high-performance UIs for complex platforms. I am highly motivated by fast-paced environments and have a strong drive to excel in backend development to become a more versatile engineer.`,
   socialLinks: {
     github: "https://github.com/sumitdahal",
     linkedin: "https://linkedin.com/in/sumitdahal",
     email: "mailto:sumitdahal123@gmail.com",
   },
+  cvUrl: "/resume.pdf", // Path to your CV file in the public folder or an external link
 };
 
 export const skills = {
-  languages: ["JavaScript", "TypeScript"],
-  frameworks: ["React.js", "React Native", "Node.js", "Next.js", "Vite"],
-  databases: ["MySQL", "PostgreSQL", "MongoDB"],
-  gis: ["MapLibre", "Leaflet", "Mapbox", "OpenLayers"],
-  tools: ["TanStack Query", "Recharts", "shadcn/ui", "Tailwind CSS", "SCSS"],
-  softSkills: [
-    "Team Collaboration",
-    "Communication",
-    "Adaptability",
-    "Problem-solving",
-  ],
+  core: ["React.js", "TypeScript", "JavaScript"],
+  styling: ["Tailwind CSS", "shadcn/ui", "SCSS", "Responsive Design"],
+  tools: ["Vite", "TanStack Query", "Recharts", "Git"],
+  gis: ["MapLibre GL", "Mapbox GL JS", "OpenLayers", "Leaflet"],
+  backend: ["Node.js", "Express", "RESTful APIs", "Stripe API", "MongoDB"],
 };
 
 export const experiences = [
@@ -41,16 +36,16 @@ export const experiences = [
     id: 1,
     title: "Frontend Developer",
     company: "NAXA Pvt. Ltd.",
-    location: "Baluwatar, Kathmandu",
+    location: "Omkareshwor Mandir Road, Kathmandu",
     period: "October 2023 – Present",
     description: [
       "Developed and maintained interactive geospatial web applications using React and modern frontend technologies.",
-      "Collaborated with GIS specialists to integrate advanced mapping libraries including MapLibre, OpenLayers, and Mapbox.",
+      "Collaborated with GIS specialists to integrate advanced mapping libraries including MapLibre, Openlayers, and Mapbox.",
       "Built reusable UI components ensuring high responsiveness, accessibility, and optimized performance.",
       "Worked closely with backend teams to consume complex REST APIs and deliver real-time data visualizations.",
       "Contributed to the design and development of spatial dashboards for infrastructure and planning projects.",
     ],
-    technologies: ["React", "MapLibre", "OpenLayers", "Mapbox", "TypeScript"],
+    technologies: ["React", "MapLibre", "Openlayers", "Mapbox", "TypeScript"],
   },
   {
     id: 2,
@@ -71,10 +66,25 @@ export const experiences = [
 export const projects = [
   {
     id: 1,
+    title: "Stozy",
+    subtitle: "Community-Based Peer-to-Peer Storage Marketplace",
+    description:
+      "Developed a robust backend architecture for a 'sharing economy' platform connecting users with unused local storage spaces. Engineered secure payment workflows by integrating Stripe API to handle automated rental fees, host payouts, and subscription management.",
+    technologies: ["Node.js", "Express", "MongoDB", "Stripe API", "JWT"],
+    highlights: [
+      "Robust backend architecture",
+      "Secure Stripe API payment workflows",
+      "Flexible MongoDB schema",
+      "Scalable RESTful APIs",
+    ],
+    color: "#10B981",
+  },
+  {
+    id: 2,
     title: "Victory Project",
     subtitle: "Municipal Water & Rainfall Monitoring",
     description:
-      "Designed dynamic forms and UI layouts for municipal analytics and data collection. Built real-time GIS visualization Charts and Map Component for monitoring rainfall and water levels.",
+      "Designed dynamic forms and UI layouts for municipal analytics and data collection. Built real-time GIS visualization Charts and Map Component for monitoring rainfall and water levels using OpenLayers.",
     technologies: ["React", "OpenLayers", "GIS", "Real-time Data"],
     highlights: [
       "Real-time GIS visualization",
@@ -84,11 +94,11 @@ export const projects = [
     color: "#3B82F6",
   },
   {
-    id: 2,
+    id: 3,
     title: "National Statistics Office (NSO)",
     subtitle: "Data Entry & Reporting Portal",
     description:
-      "Designed and implemented an interactive statistical dashboard and data visualization tools to provide real-time snapshots. Engineered modular UI components with integrated automated data validation tools.",
+      "Designed and implemented an interactive statistical dashboard and data visualization tools. Engineered modular UI components with integrated automated data validation tools ensuring data accuracy.",
     technologies: [
       "React",
       "TypeScript",
@@ -100,35 +110,35 @@ export const projects = [
     highlights: [
       "Interactive statistical dashboard",
       "Automated data validation",
-      "Role-based access control",
+      "Fast, modern, and accessible UI",
     ],
     color: "#8B5CF6",
   },
   {
-    id: 3,
+    id: 4,
     title: "PIN & UNOPS – Nepal Police",
     subtitle: "Incident Analytics Interface",
     description:
-      "Developed an incident analytics interface for visualizing crime patterns and security insights. Implemented interactive heatmaps and dynamic GIS filters for spatial analysis.",
+      "Developed an incident analytics interface for visualizing crime patterns and security insights. Implemented interactive heatmaps and dynamic GIS filters for spatial analysis using MapLibre GL.",
     technologies: ["Vite", "React", "MapLibre GL", "Recharts", "shadcn/ui"],
     highlights: [
       "Crime pattern visualization",
       "Interactive heatmaps",
-      "3D terrain thematic layers",
+      "High-performance vector maps",
     ],
     color: "#EC4899",
   },
   {
-    id: 4,
+    id: 5,
     title: "Geo-Hazard Module – Bipad Portal",
     subtitle: "NDRRMA Disaster Risk Management",
     description:
-      "Built interactive map layers for flood, landslide, and hazard impact analysis. Integrated geospatial computations to visualize damage estimations on a web-based platform.",
+      "Built interactive map layers for flood, landslide, and hazard impact analysis. Integrated geospatial computations to visualize damage estimations using Mapbox GL JS.",
     technologies: ["React", "Mapbox GL JS", "SCSS", "GIS"],
     highlights: [
       "Flood & landslide analysis",
       "Hazard impact visualization",
-      "Damage estimation mapping",
+      "Scalable and responsive frontend",
     ],
     color: "#F59E0B",
   },
@@ -141,6 +151,24 @@ export const education = [
     period: "2017 – 2022",
     grade: "First Class Honours",
   },
+  {
+    degree: "+2 Science",
+    institution: "Milestone International College, Lalitpur",
+    period: "2013 – 2015",
+    grade: "58%",
+  },
+  {
+    degree: "SLC",
+    institution: "Samudayik English Secondary Boarding School, Panauti",
+    period: "2012",
+    grade: "78%",
+  },
 ];
 
 export const certifications = ["MERN Stack Training – Broadway Infosys"];
+
+export const languages = [
+  { name: "Nepali", level: "Native" },
+  { name: "English", level: "Fluent" },
+  { name: "Hindi", level: "Conversational" },
+];
